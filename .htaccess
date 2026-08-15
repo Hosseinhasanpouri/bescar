@@ -1,0 +1,10 @@
+RewriteEngine On
+
+# Pass Authorization header to PHP (Apache/CGI often strips it)
+RewriteCond %{HTTP:Authorization} .
+RewriteRule ^ - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+# Front controller — send all non-file requests to index.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.php [QSA,L]
